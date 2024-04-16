@@ -124,11 +124,11 @@ module uartrx
   always @(posedge clk)
     begin
       if (count < clk_count/2)
-        count = count + 1;
+        count <= count + 1;
       else
         begin
-          count = 0;
-          uclk = ~uclk;
+          count <= 0;
+          uclk <= ~uclk;
         end
         
     end
@@ -140,7 +140,7 @@ module uartrx
         begin
           rx_data <= 8'h00;
           done <= 1'b0;
-          counts<=0;
+          counts <= 0;
         end
       else
         begin
