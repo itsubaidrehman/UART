@@ -25,3 +25,35 @@ class transaction;
   endfunction
   
 endclass
+
+
+class generator;
+  
+  transaction tr;
+  mailbox #(transaction) mbx;
+  
+  event next;
+  event done;
+  
+  int count;
+  
+  function new(mailbox #(transaction) mbx);
+    this.mbx = mbx;
+    tr = new();
+  endfunction
+  
+  task run();
+    repeat (count)
+      begin
+        assert (tr.randomize) else $error(" [GEN] Randomization Failed");
+        mbx.put(tr.copy);
+        tr.display("GEN");
+        @(next);
+      end
+    
+    ->done;
+  endtask;
+  
+  
+  
+endclass
